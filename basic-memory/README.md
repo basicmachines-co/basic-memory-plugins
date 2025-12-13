@@ -24,7 +24,7 @@ pipx install basic-memory
 ### 2. Add the Marketplace
 
 ```
-/plugin marketplace add basicmachines-co/basic-memory/claude-code-plugin
+/plugin marketplace add basicmachines-co/basic-memory-plugins
 ```
 
 ### 3. Install the Plugin

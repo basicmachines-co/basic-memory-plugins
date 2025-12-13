@@ -7,7 +7,7 @@ Official Claude Code plugins from [Basic Machines](https://basicmachines.co) for
 Add the marketplace and install the plugin:
 
 ```bash
-/plugin marketplace add github:basicmachines-co/basic-memory-plugins
+/plugin marketplace add basicmachines-co/basic-memory-plugins
 /plugin install basic-memory@basicmachines
 ```
 
