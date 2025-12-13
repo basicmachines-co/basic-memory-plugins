@@ -277,8 +277,9 @@ This plugin leverages Basic Memory's MCP tools:
 ## Plugin Structure
 
 ```
-basic-memory/
+basic-memory-plugins/
 ├── .claude-plugin/
+│   ├── marketplace.json     # Marketplace manifest
 │   └── plugin.json          # Plugin manifest
 ├── commands/
 │   ├── remember.md          # /remember command

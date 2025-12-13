@@ -11,7 +11,7 @@
   "plugins": [
     {
       "name": "basic-memory",
-      "source": "./basic-memory",
+      "source": "./",
       "description": "Skills, commands, and hooks for Basic Memory MCP - capture knowledge, continue conversations, and follow spec-driven development",
       "version": "0.1.0",
       "author": {
