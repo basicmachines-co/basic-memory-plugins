@@ -41,6 +41,22 @@ Skills, commands, and hooks for [Basic Memory](https://github.com/basicmachines-
 - [Basic Memory](https://github.com/basicmachines-co/basic-memory) MCP server must be configured
 - Claude Code CLI
 
+## Optional: Validation with Basic Memory Hooks
+
+For enhanced memo quality, install [basic-memory-hooks](https://github.com/basicmachines-co/basic-memory-hooks):
+
+```bash
+pip install basic-memory-hooks
+python -m basic_memory_hooks  # Start validation server
+```
+
+When the hooks server is running, the plugin will:
+- Validate memos before saving
+- Auto-fix common formatting issues
+- Report any quality warnings
+
+The plugin gracefully degrades if the hooks server isn't running—memos save normally without validation.
+
 ## License
 
 MIT
