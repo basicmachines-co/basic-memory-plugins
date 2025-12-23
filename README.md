@@ -24,6 +24,7 @@ Skills, commands, and hooks for [Basic Memory](https://github.com/basicmachines-
 - `knowledge-organize` - Maintain and organize the knowledge graph
 - `research` - Research topics using web search and save to memory
 - `edit-note` - Edit existing notes in the knowledge base
+- `validate-memo` - Validate memo formatting before saving
 
 **Commands:**
 - `/remember` - Capture knowledge from the current conversation
@@ -34,12 +35,38 @@ Skills, commands, and hooks for [Basic Memory](https://github.com/basicmachines-
 - `/research` - Research a topic and save findings
 
 **Hooks:**
-- Automatic context loading at conversation start
+- Pre-write validation (with [basic-memory-hooks](https://github.com/basicmachines-co/basic-memory-hooks))
+- Post-write confirmation
+- End-of-conversation `/remember` suggestion
+
+## Optional: Memo Validation
+
+For consistent, machine-readable memos, add [basic-memory-hooks](https://github.com/basicmachines-co/basic-memory-hooks):
+
+```bash
+# Clone and install
+gh repo clone basicmachines-co/basic-memory-hooks
+cd basic-memory-hooks
+uv sync
+
+# Start validation server
+uv run python -m basic_memory_hooks
+
+# Verify
+curl http://localhost:8000/health
+```
+
+The plugin will automatically validate memos when the hooks server is running.
 
 ## Requirements
 
 - [Basic Memory](https://github.com/basicmachines-co/basic-memory) MCP server must be configured
 - Claude Code CLI
+- (Optional) [basic-memory-hooks](https://github.com/basicmachines-co/basic-memory-hooks) for validation
+
+## Documentation
+
+See [PLUGIN.md](./PLUGIN.md) for full documentation.
 
 ## License
 

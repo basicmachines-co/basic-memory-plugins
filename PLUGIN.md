@@ -52,6 +52,76 @@ Add to your `.claude/settings.json`:
 
 ---
 
+## Memo Validation with basic-memory-hooks
+
+For consistent, machine-readable memos, integrate with [basic-memory-hooks](https://github.com/basicmachines-co/basic-memory-hooks) - a validation service that catches LLM formatting inconsistencies and fixes them automatically.
+
+### Quick Start
+
+```bash
+# 1. Clone and install
+cd ~/code
+gh repo clone basicmachines-co/basic-memory-hooks
+cd basic-memory-hooks
+uv sync  # or: pip install -e .
+
+# 2. Start the validation server
+uv run python -m basic_memory_hooks
+
+# 3. Verify it's running
+curl http://localhost:8000/health
+# Returns: {"status":"healthy"}
+```
+
+### How It Works
+
+When you create memos using `/remember`, `/research`, or write notes directly, the validation server:
+
+1. **Validates frontmatter** - Ensures title and type exist
+2. **Fixes observation format** - Converts `- fact:` to `- [fact]`
+3. **Removes duplicate sections** - Merges multiple `## Observations` blocks
+4. **Validates categories** - Checks against allowed observation types
+5. **Orders relations** - Primary relations before secondary
+
+### Example Validation
+
+```bash
+curl -X POST http://localhost:8000/validate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "My Memo",
+    "content": "---\ntitle: My Memo\ntype: memo\n---\n\n# My Memo\n\n## Observations\n\n- [fact] Something learned\n- [decision] Choice made\n- [technique] Approach used"
+  }'
+```
+
+Response:
+```json
+{
+  "success": true,
+  "content": "...",
+  "errors": [],
+  "warnings": [],
+  "metadata": {"hooks_run": ["validate_frontmatter", "format_observations", ...]}
+}
+```
+
+### Default Observation Categories
+
+| Required | Optional |
+|----------|----------|
+| fact | insight |
+| decision | question |
+| technique | idea |
+| | requirement |
+| | problem |
+| | solution |
+
+Custom categories can be configured in `.basic-memory/format.md`.
+
+See the **validate-memo** skill for complete documentation.
+
+---
+
 ## Slash Commands
 
 User-invoked commands for explicit interaction with Basic Memory.
@@ -141,6 +211,26 @@ Produces a report with:
 ## Skills
 
 Model-invoked capabilities that Claude uses automatically based on context.
+
+### validate-memo
+
+Validates and fixes memo formatting using basic-memory-hooks before saving.
+
+**Triggers when:**
+- Creating memos via `/remember` or `/research`
+- Writing structured notes with observations
+- Content needs format validation
+
+**Prerequisites:**
+- basic-memory-hooks server running at `http://localhost:8000`
+
+**How it works:**
+1. Sends memo content to validation API
+2. Checks against project format configuration
+3. Auto-fixes formatting issues (observation format, duplicates)
+4. Returns validated content or error details
+
+**Best for:** Ensuring consistent, machine-readable knowledge capture.
 
 ### knowledge-capture
 
@@ -249,6 +339,10 @@ Research topics thoroughly and produce structured reports saved to Basic Memory.
 
 Automated behaviors that enhance the Basic Memory workflow.
 
+### PreToolUse: write_note
+
+Before saving a note, prompts validation against the hooks server if running.
+
 ### PostToolUse: write_note
 
 Confirms when notes are saved to Basic Memory.
@@ -295,6 +389,7 @@ basic-memory-plugins/
 │   ├── edit-note/
 │   ├── edit-note-local/
 │   ├── knowledge-organize/
+│   ├── validate-memo/       # NEW: Memo validation
 │   └── research/
 ├── hooks/
 │   └── hooks.json           # Hook definitions
@@ -308,5 +403,6 @@ basic-memory-plugins/
 
 - [Basic Memory Documentation](https://docs.basicmemory.io)
 - [Basic Memory GitHub](https://github.com/basicmachines-co/basic-memory)
+- [Basic Memory Hooks](https://github.com/basicmachines-co/basic-memory-hooks)
 - [Model Context Protocol](https://modelcontextprotocol.io)
 - [Claude Code Plugins](https://code.claude.com/docs/en/plugins)

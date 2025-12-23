@@ -1,5 +1,16 @@
 {
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__basic-memory__write_note",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before saving this note to Basic Memory, validate it using the validate-memo skill if the hooks server is running at http://localhost:8000. Check the content against the project's format configuration to catch and fix any formatting issues. If validation fails with errors, fix the content before proceeding."
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "mcp__basic-memory__write_note",
