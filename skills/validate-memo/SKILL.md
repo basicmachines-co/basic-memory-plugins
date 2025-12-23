@@ -15,6 +15,25 @@ Use this skill when:
 - Writing structured notes with observations and relations
 - You want consistent, machine-readable knowledge capture
 
+## MVP Setup (Claude Remote)
+
+For Claude Web/Desktop users with Claude Remote MCP connected:
+
+1. **Start the hooks server on your Mac:**
+   ```bash
+   cd ~/code/basic-memory-hooks
+   uv run python -m basic_memory_hooks
+   ```
+
+2. **Claude validates via the remote agent:**
+   ```
+   Claude Web → Claude Remote MCP → Mac Agent → curl localhost:8000 → hooks server
+   ```
+
+3. **The LLM calls localhost:8000** through the remote agent to validate memos before saving to Basic Memory.
+
+This is the current MVP flow. Future versions will integrate validation directly into Basic Memory with configurable endpoints.
+
 ## Prerequisites
 
 ### Install basic-memory-hooks
