@@ -139,6 +139,8 @@ tags:
 )
 ```
 
+**Optional Validation:** If `basic-memory-hooks` is running at `http://localhost:8000`, POST the content to `/validate` first. Use the returned `content` (auto-fixed) if available. If the API is unavailable, continue without validation.
+
 ### Updating Spec Progress
 
 ```python

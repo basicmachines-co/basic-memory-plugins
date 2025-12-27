@@ -1,7 +1,7 @@
 ---
 description: Capture insights, decisions, or learnings to Basic Memory
 argument-hint: [title] [optional: folder]
-allowed-tools: mcp__basic-memory__write_note, mcp__basic-memory__search_notes
+allowed-tools: mcp__basic-memory__write_note, mcp__basic-memory__search_notes, WebFetch
 ---
 
 # Remember
@@ -35,9 +35,20 @@ Create a structured note capturing the key insights from our conversation.
      - `[learning]` - Lessons learned
    - Relations to link related concepts with `[[WikiLinks]]`
 
-3. **Save using** `mcp__basic-memory__write_note`:
+3. **Validate the note** (optional, graceful degradation):
+   - Try to POST the content to `http://localhost:8000/validate` using WebFetch
+   - If the hooks API is available:
+     - Use the returned `content` (which may have auto-fixes applied)
+     - Note any `warnings` to mention to the user
+   - If the API is unavailable (connection refused, timeout):
+     - Continue with the original content - validation is optional
+   - This step enhances quality but never blocks saving
+
+4. **Save using** `mcp__basic-memory__write_note`:
    - folder: "$2" or "notes"
    - Include relevant tags
    - Project: use "main" unless user specifies otherwise
 
-4. **Confirm** what was captured and where it was saved.
+5. **Confirm** what was captured and where it was saved.
+   - If validation ran, mention any warnings that were found
+   - If validation was skipped, that's fine - don't mention it
