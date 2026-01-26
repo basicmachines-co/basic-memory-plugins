@@ -1,7 +1,7 @@
 {
   "name": "basic-memory",
-  "description": "Claude Code skills for Basic Memory - capture knowledge, continue conversations, and follow spec-driven development using the Basic Memory MCP server",
-  "version": "0.1.0",
+  "description": "Claude Code skills, commands, and agents for Basic Memory - capture knowledge, continue conversations, and manage your knowledge graph using the Basic Memory MCP server",
+  "version": "0.2.0",
   "author": {
     "name": "Basic Machines"
   },
