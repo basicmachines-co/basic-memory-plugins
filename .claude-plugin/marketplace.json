@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Official plugins from Basic Machines for knowledge management and AI-assisted development",
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "plugins": [
     {
       "name": "basic-memory",
       "source": "./",
       "description": "Skills, commands, agents, and hooks for Basic Memory MCP - capture knowledge, continue conversations, and manage your knowledge graph with isolated context",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "author": {
         "name": "Basic Machines"
       },
