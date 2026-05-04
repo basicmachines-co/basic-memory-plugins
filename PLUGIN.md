@@ -338,7 +338,7 @@ Automated behaviors that enhance the Basic Memory workflow.
 
 ### PreToolUse: write_note
 
-Invokes the `placement` skill before saving a note, ensuring the `directory` parameter matches project conventions defined in `basic-memory.md`. Matcher is `mcp__.*__write_note`, so it catches any MCP basic-memory variant (local install, cloud, claude.ai connector).
+Advisory reminder before saving a note. Injects context that prompts the model to run the `placement` skill (if it hasn't already for this write). The hook returns `permissionDecision: allow` unconditionally — it never blocks the write — so the placement decision is made by the skill + model rather than by hook approval. Matcher is `mcp__.*__write_note`, so it catches any MCP basic-memory variant (local install, cloud, claude.ai connector).
 
 ### PostToolUse: write_note
 

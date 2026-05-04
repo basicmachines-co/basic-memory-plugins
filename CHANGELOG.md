@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.5
+
+### Fixed
+
+- **PreToolUse hook switched from `type: "prompt"` to `type: "command"`.** The prompt-type variant has no documented decision semantics for PreToolUse — the model's response is not parsed for an explicit allow/block decision, so the tool call was blocked even when the model said "proceed." The command-type variant outputs JSON with `permissionDecision: "allow"` and an `additionalContext` reminder, making the hook advisory rather than gate-keeping. The placement skill still runs; it just doesn't gate the write call any more.
+
+### Why
+
+The previous approach treated the hook as a binding gate on the tool call. In practice, that meant any model response shy of an explicit approval keyword was treated as a block — and there's no documented format for what such an approval looks like in a prompt-type PreToolUse hook. Switching to command-type with a known-good JSON shape removes the ambiguity.
+
+The cost: the hook can no longer enforce that placement was considered. The model could in theory ignore the reminder. In practice, the `additionalContext` injection is enough nudge — the placement skill runs reliably in real-world conversations.
+
 ## 0.3.4
 
 ### Fixed

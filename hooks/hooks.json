@@ -5,8 +5,8 @@
         "matcher": "mcp__.*__write_note",
         "hooks": [
           {
-            "type": "prompt",
-            "prompt": "Before saving this note: if you haven't already invoked the placement skill for this specific write (or the directory was set by explicit user instruction or basic-memory.md config), invoke it now. If placement is already settled for this write, proceed without re-invoking."
+            "type": "command",
+            "command": "echo '{\"permissionDecision\":\"allow\",\"additionalContext\":\"Before saving this note: invoke the placement skill (basic-memory:placement) to determine the correct directory parameter — unless placement was already settled for this write via the skill, basic-memory.md config, or explicit user instruction. The hook is advisory; this tool call is allowed regardless.\"}'"
           }
         ]
       }
