@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.3
+
+### Removed
+
+- **Stop hook** that suggested `/remember` at conversation end. The hook entered an infinite re-entry loop in real-world testing: when the model finished its turn awaiting user input, the Stop hook fired with a "consider suggesting /remember" prompt; the model evaluated and decided no action was needed; the model tried to stop again; the hook fired again; and so on, with the user effectively unable to take their turn until interrupting manually.
+
+### Why
+
+The Stop hook predates 0.3.0 and was not modified by the placement work, but the v0.3.2 smoke test made the loop visible (since 0.3.2 was the first release whose hooks actually fired for the test environment — see 0.3.2 notes). Rather than ship a broken hook, removing it is the right call. Users can still invoke `/remember` manually.
+
+A guarded re-entry-safe version may return in a later release once the Claude Code Stop-hook semantics (`stop_hook_active` and similar) are understood and can be wired in safely.
+
 ## 0.3.2
 
 ### Fixed

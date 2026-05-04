@@ -41,7 +41,6 @@ Skills, commands, and hooks for [Basic Memory](https://github.com/basicmachines-
 **Hooks:**
 - Pre-write placement (selects the right folder based on project conventions)
 - Post-write confirmation
-- End-of-conversation `/remember` suggestion
 
 ## Configuration
 

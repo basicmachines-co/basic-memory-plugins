@@ -344,10 +344,6 @@ Invokes the `placement` skill before saving a note, ensuring the `directory` par
 
 Confirms when notes are saved to Basic Memory. Same `mcp__.*__write_note` matcher.
 
-### Stop
-
-After significant conversations, suggests using `/remember` to capture valuable insights (only when genuinely useful).
-
 ---
 
 ## MCP Tools Used
