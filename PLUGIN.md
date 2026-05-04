@@ -1,6 +1,10 @@
 # Basic Memory Plugin for Claude Code
 
-This plugin provides skills, commands, and hooks for working with [Basic Memory](https://basicmemory.io) - a local-first knowledge management system built on the Model Context Protocol (MCP).
+This plugin provides skills, commands, and hooks for working with [Basic Memory](https://basicmemory.com) — a local-first knowledge management system built on the Model Context Protocol (MCP).
+
+It uses [Claude Code's plugin format](https://docs.claude.com/en/docs/claude-code/plugins) (slash commands, hooks, and skills bundled into an installable marketplace) and **only works with Claude Code**.
+
+> **Looking for framework-agnostic skills?** See [`basic-memory-skills`](https://github.com/basicmachines-co/basic-memory-skills) — `SKILL.md` files that work in Claude Code, Claude Desktop, and other MCP-compatible agents. The commands and hooks in this plugin are Claude Code-specific and aren't available there.
 
 ## Prerequisites
 
@@ -396,7 +400,7 @@ basic-memory-plugins/
 
 ## Related
 
-- [Basic Memory Documentation](https://docs.basicmemory.io)
+- [Basic Memory Documentation](https://docs.basicmemory.com)
 - [Basic Memory GitHub](https://github.com/basicmachines-co/basic-memory)
 - [Model Context Protocol](https://modelcontextprotocol.io)
 - [Claude Code Plugins](https://code.claude.com/docs/en/plugins)
