@@ -1,15 +1,15 @@
 ---
 name: placement
-description: Decide where a new note belongs in a Basic Memory project — which folder, matching project conventions read from a unified config file (basic-memory.md). Triggered automatically by a PreToolUse hook on mcp__basic-memory__write_note.
+description: Decide where a new note belongs in a Basic Memory project — which folder, matching project conventions read from a unified config file (basic-memory.md). Triggered automatically by a PreToolUse hook matching any MCP basic-memory write_note tool.
 ---
 
 # Placement
 
-Decides the `directory` parameter for a `mcp__basic-memory__write_note` call before it runs. Reads project and global config (`basic-memory.md`), then applies a short-circuit decision flow.
+Decides the `directory` parameter for a Basic Memory `write_note` call before it runs. Reads project and global config (`basic-memory.md`), then applies a short-circuit decision flow.
 
 ## When to Use
 
-This skill is invoked automatically by the `PreToolUse` hook on `mcp__basic-memory__write_note`. You can also invoke it directly when planning a write.
+This skill is invoked automatically by a `PreToolUse` hook (matcher: `mcp__.*__write_note`) that catches any MCP basic-memory variant — local, cloud, or claude.ai connector. You can also invoke it directly when planning a write.
 
 Inputs: the note's title and content (already drafted), and the active project name.
 

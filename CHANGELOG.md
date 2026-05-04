@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.2
+
+### Fixed
+
+- **Hook matchers now use regex** — `mcp__.*__write_note` instead of the literal `mcp__basic-memory__write_note`. The previous matcher only fired for users running a locally-installed Basic Memory MCP server. Users on the claude.ai Basic Memory Cloud connector (or any other MCP server name) had hooks that silently never fired. The regex catches all variants.
+
+### Changed
+
+- Hook prompt body and skill/PLUGIN.md descriptions updated to be tool-name-agnostic, matching the new matcher.
+
+### Known limitations
+
+- Slash commands (`/remember`, `/research`, etc.) and the `basic-memory-manager` agent still have `allowed-tools` frontmatter that lists exact tool names (`mcp__basic-memory__*`). Users on alternative MCP server names may find these commands have no tool access. Pattern support in `allowed-tools` is being investigated for a follow-up release.
+
 ## 0.3.1
 
 ### Changed

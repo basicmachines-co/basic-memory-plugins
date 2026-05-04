@@ -231,10 +231,10 @@ Model-invoked capabilities that Claude uses automatically based on context.
 
 ### placement
 
-Decides which folder a new note belongs in. Runs automatically before every `mcp__basic-memory__write_note` call (via PreToolUse hook).
+Decides which folder a new note belongs in. Runs automatically before every Basic Memory `write_note` call via a `PreToolUse` hook with matcher `mcp__.*__write_note` (catches local, cloud, and claude.ai connector variants).
 
 **Triggers when:**
-- About to call `mcp__basic-memory__write_note`
+- About to call any MCP basic-memory `write_note` tool
 - Manually invoked when planning a write
 
 **How it works:**
@@ -338,11 +338,11 @@ Automated behaviors that enhance the Basic Memory workflow.
 
 ### PreToolUse: write_note
 
-Invokes the `placement` skill before saving a note, ensuring the `directory` parameter matches project conventions defined in `basic-memory.md`.
+Invokes the `placement` skill before saving a note, ensuring the `directory` parameter matches project conventions defined in `basic-memory.md`. Matcher is `mcp__.*__write_note`, so it catches any MCP basic-memory variant (local install, cloud, claude.ai connector).
 
 ### PostToolUse: write_note
 
-Confirms when notes are saved to Basic Memory.
+Confirms when notes are saved to Basic Memory. Same `mcp__.*__write_note` matcher.
 
 ### Stop
 

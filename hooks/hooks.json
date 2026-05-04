@@ -2,18 +2,18 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "mcp__basic-memory__write_note",
+        "matcher": "mcp__.*__write_note",
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "Before calling mcp__basic-memory__write_note: invoke the placement skill to determine the correct directory parameter. If the skill needs input or surfaces ambiguity, ask the user before proceeding."
+            "prompt": "Before saving this note: invoke the placement skill to determine the correct directory parameter for the write_note call. If the skill needs input or surfaces ambiguity, ask the user before proceeding."
           }
         ]
       }
     ],
     "PostToolUse": [
       {
-        "matcher": "mcp__basic-memory__write_note",
+        "matcher": "mcp__.*__write_note",
         "hooks": [
           {
             "type": "command",
