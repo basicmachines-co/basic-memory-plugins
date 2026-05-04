@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.4
+
+### Fixed
+
+- **PreToolUse hook re-fired on every `write_note` retry** — the original prompt unconditionally demanded the placement skill be invoked, so when a write retry came after a user confirmation, the model interpreted the hook as a fresh demand and re-ran the skill (asking the user again). The prompt now allows "placement already settled for this write" as a valid state.
+- **Placement skill asked too eagerly when there was clear precedent.** Previously, "no topic-matching folder" was treated as ambiguity → ask. Now the skill follows precedent (similar notes already at root or a folder) without asking, even when no folder is a perfect topic match. The skill only asks when there's no config rule, no topic match, *and* no precedent.
+
 ## 0.3.3
 
 ### Removed

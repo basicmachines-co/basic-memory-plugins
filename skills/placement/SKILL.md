@@ -20,12 +20,13 @@ Inputs: the note's title and content (already drafted), and the active project n
    - Global: `~/.basic-memory/basic-memory.md` — extract `## Placements`. Look for `### <project-name>` first, then bare content under the H2.
 2. **If config gives a definitive answer** → use it. Stop.
 3. **List the project tree** via `list_directory`. If a folder is a clear topic match → use it. Stop.
-4. **If still unclear**, search for related notes via `search_notes` to see where similar content lives. Use as a placement signal.
-5. **If still unclear** → ask the user.
+4. **Follow precedent.** If similar notes already live at a specific location (root or a folder) — even if no folder name is a perfect topic match — place the new note there. Use `search_notes` to find the precedent if needed. Stop.
+5. **Only ask the user if there is no config rule, no clear topic-matching folder, AND no precedent.** Don't ask just because nothing is a perfect topic match — precedent is enough.
 
 ## Defaults (apply when no rule speaks)
 
 - Match by topic against existing folders.
+- Follow precedent: if similar notes already live at a location, place there without asking.
 - Never create new folders silently. Ask before creating.
 - Avoid catch-all folders (`misc/`, `notes/`, `tmp/`) unless they already exist.
 - Match the project's existing depth and naming convention.
