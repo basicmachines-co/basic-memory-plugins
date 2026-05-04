@@ -266,15 +266,6 @@ Resumes previous work by building context from the knowledge graph.
 - User mentions previous work ("continue with...", "back to...")
 - Need context about ongoing projects
 
-### spec-driven-development
-
-Guides implementation based on specifications stored in Basic Memory.
-
-**Triggers when:**
-- Implementing a feature defined by a spec
-- Creating new specifications
-- Reviewing implementation against criteria
-
 ### edit-note
 
 Interactively edit notes using MCP tools in a conversational workflow.
@@ -380,7 +371,6 @@ basic-memory-plugins/
 │   ├── placement/           # NEW: folder placement
 │   ├── knowledge-capture/
 │   ├── continue-conversation/
-│   ├── spec-driven-development/
 │   ├── edit-note/
 │   ├── knowledge-organize/
 │   └── research/

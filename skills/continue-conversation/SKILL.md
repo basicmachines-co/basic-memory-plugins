@@ -204,5 +204,4 @@ Routing rules (when to use which project) live in `## Projects` of `~/.basic-mem
 
 After building context, you might:
 - Use **knowledge-capture** to document new progress
-- Use **spec-driven-development** if continuing a spec implementation
 - Create new notes linking to the context you gathered

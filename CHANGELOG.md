@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.7
+
+### Removed
+
+- **`spec-driven-development` skill**. The skill encoded one team's internal spec workflow (specific SPEC-N numbering, "Why/What/How/How to Evaluate" structure, a `specs` project assumption). It's not generally useful for other users, and the surrounding plugin already covers the building blocks (notes, observations, relations) that anyone could use to implement their own spec workflow without skill-level guidance.
+
+### Migration
+
+If you relied on the skill, the underlying capabilities are still available via:
+- `knowledge-capture` for writing structured notes
+- `edit-note` for updating progress
+- `continue-conversation` for resuming spec implementations
+
+You can also keep your own copy of the skill locally — it just won't ship with the plugin.
+
 ## 0.3.6
 
 ### Changed

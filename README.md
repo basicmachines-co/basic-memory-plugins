@@ -25,7 +25,6 @@ Skills, commands, and hooks for [Basic Memory](https://github.com/basicmachines-
 - `placement` - Decide which folder a new note belongs in (runs automatically before `write_note`)
 - `knowledge-capture` - Capture important information from conversations
 - `continue-conversation` - Continue previous conversations with context
-- `spec-driven-development` - Follow specification-driven development workflow
 - `knowledge-organize` - Maintain and organize the knowledge graph
 - `research` - Research topics using web search and save to memory
 - `edit-note` - Edit existing notes in the knowledge base
