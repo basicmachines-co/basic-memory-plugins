@@ -42,18 +42,21 @@ The active session is continuously appending to its jsonl file, so it's reliably
 ## Decision Flow
 
 1. **Derive the session UUID** with the Bash command above.
-2. **Search Basic Memory** for an existing note that contains this UUID:
+2. **Search Basic Memory** for an existing note tagged with this UUID. Use `metadata_filters` (not `query`) — full-text query doesn't reliably match YAML frontmatter custom fields:
    ```python
-   mcp__basic-memory__search_notes(query="<session-uuid>", project="<project>")
+   mcp__basic-memory__search_notes(
+       metadata_filters={"thread_id": "<session-uuid>"},
+       project="<project>"
+   )
    ```
 3. **If a match is found:**
-   - Read the existing note
+   - Read the existing note (use the full permalink returned by search, e.g., `bmem/development/basic-memory/...`)
    - Synthesize a new version that integrates the latest understanding from the conversation
-   - Overwrite via `write_note` (same title and `thread_id`)
+   - Overwrite via `write_note` with `overwrite=true` (same title, same `thread_id`, same directory)
 4. **If no match is found:**
    - Synthesize the note from the conversation
-   - Include `thread_id: <session-uuid>` in frontmatter
-   - Save via `write_note` — the `placement` skill picks the folder
+   - Pass `metadata={"thread_id": "<session-uuid>"}` to `write_note` (it surfaces as a custom frontmatter field)
+   - Save — the `placement` skill picks the folder
 
 ## Synthesis Rules
 
@@ -121,16 +124,37 @@ The title should reflect the thread's topic. On update, the title can be refined
 ## MCP Tools Used
 
 ```python
-# Find existing thread note
-mcp__basic-memory__search_notes(query="<session-uuid>", project="<project>")
+# Find existing thread note (use metadata_filters, not query)
+mcp__basic-memory__search_notes(
+    metadata_filters={"thread_id": "<session-uuid>"},
+    project="<project>"
+)
 
-# Read existing thread note (if found)
-mcp__basic-memory__read_note(identifier="<title-or-permalink>", project="<project>")
+# Read existing thread note (use the full permalink from search results)
+mcp__basic-memory__read_note(
+    identifier="<full-permalink>",
+    project="<project>",
+    include_frontmatter=True
+)
 
-# Create or overwrite
+# Create
 mcp__basic-memory__write_note(
     title="<title>",
-    content="<full markdown including frontmatter>",
+    content="<markdown body — frontmatter is generated from title/tags/metadata>",
+    directory="<folder>",
+    tags=["..."],
+    metadata={"thread_id": "<session-uuid>"},
+    project="<project>"
+)
+
+# Overwrite an existing note (same path)
+mcp__basic-memory__write_note(
+    title="<same title>",
+    content="<new content>",
+    directory="<same folder>",
+    tags=["..."],
+    metadata={"thread_id": "<same session-uuid>"},
+    overwrite=True,
     project="<project>"
 )
 ```

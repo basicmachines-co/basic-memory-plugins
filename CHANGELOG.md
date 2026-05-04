@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.13
+
+### Fixed
+
+- **`knowledge-capture` thread lookup uses `metadata_filters` instead of `query`.** The previous instructions told the skill to find an existing thread note via `search_notes(query="<uuid>")` — a full-text search. In practice this doesn't find the note even though `thread_id` is in the frontmatter: full-text indexing apparently doesn't surface YAML frontmatter custom fields, or scores those matches too low.
+
+  The reliable lookup is `search_notes(metadata_filters={"thread_id": "<uuid>"})` — direct query against the metadata field. This consistently returns the matching note (with score 0.0 — direct match) when one exists.
+
+- **Skill instructions now show `overwrite=True`** for the update path, since `write_note` requires it to replace an existing note at the same path.
+
+### Discovery
+
+This bug was found by exercising the skill in real-world conditions: invoking `/knowledge-capture` a second time in the same thread, expecting the existing note to be found and rewritten. Search returned weak unrelated matches; the existing note was missed; the update flow couldn't proceed without manual intervention.
+
 ## 0.3.12
 
 ### Fixed
