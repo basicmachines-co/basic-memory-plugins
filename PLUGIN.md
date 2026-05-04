@@ -157,15 +157,6 @@ Creates a structured note with:
 
 The `placement` skill chooses the folder automatically based on project conventions. Pass an explicit folder to override.
 
-### `/context <memory://url> [depth] [timeframe]`
-
-Build context from a specific memory:// URL.
-
-```
-/context memory://SPEC-24
-/context memory://architecture/* 3 2weeks
-```
-
 ### `/organize [action] [project]`
 
 Organize and maintain your knowledge graph.
@@ -340,7 +331,6 @@ basic-memory-plugins/
 │   └── plugin.json          # Plugin manifest
 ├── commands/
 │   ├── remember.md          # /remember command
-│   ├── context.md           # /context command
 │   ├── organize.md          # /organize command
 │   └── research.md          # /research command
 ├── skills/

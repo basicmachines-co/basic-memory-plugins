@@ -31,7 +31,6 @@ Skills, commands, and hooks for [Basic Memory](https://github.com/basicmachines-
 
 **Commands:**
 - `/remember` - Capture knowledge from the current conversation
-- `/context` - Build context from memory URLs
 - `/organize` - Maintain knowledge graph structure
 - `/research` - Research a topic and save findings
 

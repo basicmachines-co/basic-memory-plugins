@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.9
+
+### Removed
+
+- **`/context` slash command** — collided with Claude Code's built-in `/context` (which shows context window usage). The plugin command was a thin wrapper around the MCP `build_context` tool; users can invoke that tool conversationally with the same effect.
+
 ## 0.3.8
 
 ### Removed
