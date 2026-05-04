@@ -157,18 +157,6 @@ Creates a structured note with:
 
 The `placement` skill chooses the folder automatically based on project conventions. Pass an explicit folder to override.
 
-### `/continue [topic]`
-
-Resume previous work by building context from Basic Memory.
-
-```
-/continue postgres migration
-/continue SPEC-24
-/continue
-```
-
-If no topic is provided, shows recent activity and asks what to dive into.
-
 ### `/context <memory://url> [depth] [timeframe]`
 
 Build context from a specific memory:// URL.
@@ -176,16 +164,6 @@ Build context from a specific memory:// URL.
 ```
 /context memory://SPEC-24
 /context memory://architecture/* 3 2weeks
-```
-
-### `/recent [timeframe] [project]`
-
-Show recent activity in Basic Memory.
-
-```
-/recent
-/recent 1week
-/recent today specs
 ```
 
 ### `/organize [action] [project]`
@@ -362,9 +340,7 @@ basic-memory-plugins/
 │   └── plugin.json          # Plugin manifest
 ├── commands/
 │   ├── remember.md          # /remember command
-│   ├── continue.md          # /continue command
 │   ├── context.md           # /context command
-│   ├── recent.md            # /recent command
 │   ├── organize.md          # /organize command
 │   └── research.md          # /research command
 ├── skills/

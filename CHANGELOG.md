@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.8
+
+### Removed
+
+- **`/continue` slash command** — duplicates the Basic Memory MCP server's `continue_conversation` prompt. Use that instead.
+- **`/recent` slash command** — duplicates the Basic Memory MCP server's `recent_activity` prompt. Use that instead.
+
+### Why
+
+The MCP server exposes prompts that surface as slash commands in Claude clients. The plugin's `/continue` and `/recent` were independent implementations of the same workflows, doubling user-visible commands and creating confusion about which one to use. The MCP versions are upstream-maintained and authoritative.
+
+The plugin still ships unique commands that don't have MCP equivalents: `/remember`, `/context`, `/organize`, `/research`.
+
 ## 0.3.7
 
 ### Removed
