@@ -1,10 +1,10 @@
 # Basic Memory Plugin for Claude Code
 
-This plugin provides skills, commands, and hooks for working with [Basic Memory](https://basicmemory.com) — a local-first knowledge management system built on the Model Context Protocol (MCP).
+This plugin provides skills and hooks for working with [Basic Memory](https://basicmemory.com) — a local-first knowledge management system built on the Model Context Protocol (MCP).
 
-It uses [Claude Code's plugin format](https://docs.claude.com/en/docs/claude-code/plugins) (slash commands, hooks, and skills bundled into an installable marketplace) and **only works with Claude Code**.
+It uses [Claude Code's plugin format](https://docs.claude.com/en/docs/claude-code/plugins) (skills and hooks bundled into an installable marketplace) and **only works with Claude Code**.
 
-> **Looking for framework-agnostic skills?** See [`basic-memory-skills`](https://github.com/basicmachines-co/basic-memory-skills) — `SKILL.md` files that work in Claude Code, Claude Desktop, and other MCP-compatible agents. The commands and hooks in this plugin are Claude Code-specific and aren't available there.
+> **Looking for framework-agnostic skills?** See [`basic-memory-skills`](https://github.com/basicmachines-co/basic-memory-skills) — `SKILL.md` files that work in Claude Code, Claude Desktop, and other MCP-compatible agents. The hooks in this plugin are Claude Code-specific and aren't available there.
 
 ## Prerequisites
 
@@ -134,63 +134,6 @@ Claude will:
 4. Show you the draft for review before writing
 
 This is a one-time conversational pattern — no slash command required.
-
----
-
-## Slash Commands
-
-User-invoked commands for explicit interaction with Basic Memory.
-
-### `/remember [title] [folder]`
-
-Capture insights, decisions, or learnings from the current conversation.
-
-```
-/remember "FastAPI Async Pattern"
-/remember "Auth Decision" decisions
-```
-
-Creates a structured note with:
-- Context from the conversation
-- Observations with `[decision]`, `[insight]`, `[pattern]` categories
-- Relations linking to related concepts
-
-The `placement` skill chooses the folder automatically based on project conventions. Pass an explicit folder to override.
-
-### `/organize [action] [project]`
-
-Organize and maintain your knowledge graph.
-
-```
-/organize                    # Quick health check
-/organize orphans            # Find unlinked notes
-/organize duplicates         # Find similar notes
-/organize relations "Note"   # Suggest links for a note
-/organize tags               # Review tag consistency
-```
-
-Actions:
-- `health` - Overview of knowledge base status (default)
-- `orphans` - Find notes with no relations
-- `duplicates` - Find overlapping notes
-- `relations` - Suggest connections
-- `tags` - Review tag consistency
-
-### `/research <topic> [folder]`
-
-Research a topic and save a structured report to Basic Memory.
-
-```
-/research MCP protocol
-/research "database migrations"
-/research "auth options" decisions
-```
-
-Produces a report with:
-- Summary and key findings
-- Analysis and recommendations
-- Sources and related notes
-- Saved to `research/` folder by default (or wherever the `placement` skill directs based on project conventions)
 
 ---
 
@@ -329,12 +272,8 @@ basic-memory-plugins/
 ├── .claude-plugin/
 │   ├── marketplace.json     # Marketplace manifest
 │   └── plugin.json          # Plugin manifest
-├── commands/
-│   ├── remember.md          # /remember command
-│   ├── organize.md          # /organize command
-│   └── research.md          # /research command
 ├── skills/
-│   ├── placement/           # NEW: folder placement
+│   ├── placement/
 │   ├── knowledge-capture/
 │   ├── continue-conversation/
 │   ├── edit-note/

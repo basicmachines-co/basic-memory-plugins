@@ -2,7 +2,7 @@
 
 **Claude Code-specific plugins** for [Basic Memory](https://basicmemory.com) knowledge management.
 
-This repository uses [Claude Code's plugin format](https://docs.claude.com/en/docs/claude-code/plugins) — slash commands, hooks, and skills bundled into an installable marketplace. It only works with Claude Code.
+This repository uses [Claude Code's plugin format](https://docs.claude.com/en/docs/claude-code/plugins) — skills and hooks bundled into an installable marketplace. It only works with Claude Code.
 
 > **Looking for framework-agnostic skills?** See [`basic-memory-skills`](https://github.com/basicmachines-co/basic-memory-skills) — `SKILL.md` files that work in Claude Code, Claude Desktop, and other MCP-compatible agents. Some functionality (commands, hooks) is unique to this Claude Code plugin and isn't available there.
 
@@ -19,7 +19,7 @@ Add the marketplace and install the plugin:
 
 ### basic-memory
 
-Skills, commands, and hooks for [Basic Memory](https://github.com/basicmachines-co/basic-memory) MCP server integration.
+Skills and hooks for [Basic Memory](https://github.com/basicmachines-co/basic-memory) MCP server integration.
 
 **Skills:**
 - `placement` - Decide which folder a new note belongs in (runs automatically before `write_note`)
@@ -29,10 +29,7 @@ Skills, commands, and hooks for [Basic Memory](https://github.com/basicmachines-
 - `research` - Research topics using web search and save to memory
 - `edit-note` - Edit existing notes in the knowledge base
 
-**Commands:**
-- `/remember` - Capture knowledge from the current conversation
-- `/organize` - Maintain knowledge graph structure
-- `/research` - Research a topic and save findings
+Skills auto-expose as slash commands in Claude Code (e.g., `/knowledge-organize`). The Basic Memory MCP server provides additional prompts (`continue_conversation`, `recent_activity`, `search`) that surface as their own slash commands.
 
 **Hooks:**
 - Pre-write placement (selects the right folder based on project conventions)

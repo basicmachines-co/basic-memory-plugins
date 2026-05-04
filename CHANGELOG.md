@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.3.10
+
+### Removed
+
+- **All slash commands** (`/remember`, `/organize`, `/research`) and the entire `commands/` directory.
+
+### Why
+
+Claude Code auto-exposes every skill as a slash command (e.g., `/knowledge-organize`, `/research`). The plugin's explicit commands duplicated their corresponding skills, producing two entries for the same workflow in the slash-command picker. The skills are the richer primitive; the commands were thin wrappers.
+
+This drops three files and ~200 lines of duplicate content. The Basic Memory MCP server still provides `continue_conversation`, `recent_activity`, `search`, and `ai_assistant_guide` as native slash commands.
+
+### Updated
+
+- `marketplace.json`, `plugin.json`, `README.md`, `PLUGIN.md` — descriptions and structure references updated to reflect skills+hooks (no commands).
+
 ## 0.3.9
 
 ### Removed
