@@ -18,13 +18,13 @@ Add the marketplace and install the plugin:
 Skills, commands, and hooks for [Basic Memory](https://github.com/basicmachines-co/basic-memory) MCP server integration.
 
 **Skills:**
+- `placement` - Decide which folder a new note belongs in (runs automatically before `write_note`)
 - `knowledge-capture` - Capture important information from conversations
 - `continue-conversation` - Continue previous conversations with context
 - `spec-driven-development` - Follow specification-driven development workflow
 - `knowledge-organize` - Maintain and organize the knowledge graph
 - `research` - Research topics using web search and save to memory
 - `edit-note` - Edit existing notes in the knowledge base
-- `validate-memo` - Validate memo formatting before saving
 
 **Commands:**
 - `/remember` - Capture knowledge from the current conversation
@@ -35,54 +35,29 @@ Skills, commands, and hooks for [Basic Memory](https://github.com/basicmachines-
 - `/research` - Research a topic and save findings
 
 **Hooks:**
-- Pre-write validation (with [basic-memory-hooks](https://github.com/basicmachines-co/basic-memory-hooks))
+- Pre-write placement (selects the right folder based on project conventions)
 - Post-write confirmation
 - End-of-conversation `/remember` suggestion
 
-## Optional: Memo Validation
+## Configuration
 
-For consistent, machine-readable memos, add [basic-memory-hooks](https://github.com/basicmachines-co/basic-memory-hooks):
+The plugin reads conventions from a unified config file:
 
-```bash
-# Clone and install
-gh repo clone basicmachines-co/basic-memory-hooks
-cd basic-memory-hooks
-uv sync
+- **Per-project:** a note titled `basic-memory` at the project root
+- **Global:** `~/.basic-memory/basic-memory.md`
 
-# Start validation server
-uv run python -m basic_memory_hooks
+Sections (`## Projects`, `## Placements`, `## Formats`, `## Schemas`) define rules. H3 sub-sections (e.g. `### research`) provide project-specific overrides.
 
-# Verify
-curl http://localhost:8000/health
-```
-
-The plugin will automatically validate memos when the hooks server is running.
+If no config exists, the plugin uses sensible built-in defaults. See [PLUGIN.md](./PLUGIN.md) for the full schema and a bootstrap walkthrough.
 
 ## Requirements
 
 - [Basic Memory](https://github.com/basicmachines-co/basic-memory) MCP server must be configured
 - Claude Code CLI
-- (Optional) [basic-memory-hooks](https://github.com/basicmachines-co/basic-memory-hooks) for validation
 
 ## Documentation
 
 See [PLUGIN.md](./PLUGIN.md) for full documentation.
-
-## Optional: Validation with Basic Memory Hooks
-
-For enhanced memo quality, install [basic-memory-hooks](https://github.com/basicmachines-co/basic-memory-hooks):
-
-```bash
-pip install basic-memory-hooks
-python -m basic_memory_hooks  # Start validation server
-```
-
-When the hooks server is running, the plugin will:
-- Validate memos before saving
-- Auto-fix common formatting issues
-- Report any quality warnings
-
-The plugin gracefully degrades if the hooks server isn't running—memos save normally without validation.
 
 ## License
 

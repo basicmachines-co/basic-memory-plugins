@@ -35,20 +35,9 @@ Create a structured note capturing the key insights from our conversation.
      - `[learning]` - Lessons learned
    - Relations to link related concepts with `[[WikiLinks]]`
 
-3. **Validate the note** (optional, graceful degradation):
-   - Try to POST the content to `http://localhost:8000/validate` using WebFetch
-   - If the hooks API is available:
-     - Use the returned `content` (which may have auto-fixes applied)
-     - Note any `warnings` to mention to the user
-   - If the API is unavailable (connection refused, timeout):
-     - Continue with the original content - validation is optional
-   - This step enhances quality but never blocks saving
-
-4. **Save using** `mcp__basic-memory__write_note`:
-   - folder: "$2" or "notes"
+3. **Save using** `mcp__basic-memory__write_note`:
+   - The placement skill will determine the correct `folder` automatically (via the PreToolUse hook). If "$2" is provided, use it as an override.
    - Include relevant tags
-   - Project: use "main" unless user specifies otherwise
+   - Project: use the project specified by the user, or fall back to the default per `## Projects` rules in `~/.basic-memory/basic-memory.md`
 
-5. **Confirm** what was captured and where it was saved.
-   - If validation ran, mention any warnings that were found
-   - If validation was skipped, that's fine - don't mention it
+4. **Confirm** what was captured and where it was saved.

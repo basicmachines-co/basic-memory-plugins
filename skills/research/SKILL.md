@@ -128,27 +128,19 @@ tags:
 - relates-to [[Related Concepts]]
 ```
 
-### 5. Validate (Optional)
-
-If `basic-memory-hooks` is running, validate before saving:
-
-1. POST to `http://localhost:8000/validate` with `{"content": "...", "title": "..."}`
-2. If API responds: use returned `content` (may have auto-fixes)
-3. If API unavailable: continue with original content
-
-This is optional - validation enhances quality but never blocks saving.
-
-### 6. Save to Basic Memory
+### 5. Save to Basic Memory
 
 ```python
 mcp__basic-memory__write_note(
     title="Research: [Topic]",
-    content="[Full report content]",  # or validated content if available
-    folder="research",
+    content="[Full report content]",
+    folder="research",  # placement skill may override based on project conventions
     tags=["research", "topic-tags"],
     project="main"
 )
 ```
+
+The `placement` skill runs automatically before the write (via PreToolUse hook) and may adjust the `folder` to match project conventions defined in `basic-memory.md`.
 
 ## Report Styles
 

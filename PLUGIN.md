@@ -52,73 +52,84 @@ Add to your `.claude/settings.json`:
 
 ---
 
-## Memo Validation with basic-memory-hooks
+## Configuration
 
-For consistent, machine-readable memos, integrate with [basic-memory-hooks](https://github.com/basicmachines-co/basic-memory-hooks) - a validation service that catches LLM formatting inconsistencies and fixes them automatically.
+The plugin reads project conventions from a unified config file. Without one, it falls back to sensible built-in defaults. You can adopt the config gradually as you discover what you want to standardize.
 
-### Quick Start
+### Where it lives
 
-```bash
-# 1. Clone and install
-cd ~/code
-gh repo clone basicmachines-co/basic-memory-hooks
-cd basic-memory-hooks
-uv sync  # or: pip install -e .
+| Scope | Location | Format |
+|-------|----------|--------|
+| Project | A note titled `basic-memory` at the project root | Basic Memory note (read via MCP) |
+| Global | `~/.basic-memory/basic-memory.md` | Filesystem markdown file |
 
-# 2. Start the validation server
-uv run python -m basic_memory_hooks
+### Schema
 
-# 3. Verify it's running
-curl http://localhost:8000/health
-# Returns: {"status":"healthy"}
+The config file uses H2 sections for categories and H3 sub-sections for project-specific overrides. Bare content under an H2 is the default; H3 sub-sections override it for a specific project.
+
+```markdown
+# Basic Memory config
+
+## Projects
+- work: default project for daily work
+- personal: personal notes and reflections
+- research: long-form research notes
+
+## Placements
+- Place into existing folders by topic match
+- Never create new top-level folders without asking
+- Match the project's existing naming convention
+
+### research
+- Long-form notes go in `papers/`
+- Quick references go in `refs/`
+
+## Formats
+- Required frontmatter: title, type, date
+- Observation categories: fact, decision, technique, problem, solution
+
+## Schemas
+### work
+person:
+  - name
+  - email
+  - role
 ```
 
-### How It Works
+### Reserved sections
 
-When you create memos using `/remember`, `/research`, or write notes directly, the validation server:
+| Section | Scope | Purpose |
+|---------|-------|---------|
+| `## Projects` | Global only | Routing rules — when to use which project |
+| `## Placements` | Project or global | Folder conventions for new notes |
+| `## Formats` | Project or global | Frontmatter and observation conventions |
+| `## Schemas` | Project or global | Note type definitions |
 
-1. **Validates frontmatter** - Ensures title and type exist
-2. **Fixes observation format** - Converts `- fact:` to `- [fact]`
-3. **Removes duplicate sections** - Merges multiple `## Observations` blocks
-4. **Validates categories** - Checks against allowed observation types
-5. **Orders relations** - Primary relations before secondary
+Other H2 sections are treated as user notes and ignored.
 
-### Example Validation
+### Precedence
 
-```bash
-curl -X POST http://localhost:8000/validate \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "My Memo",
-    "content": "---\ntitle: My Memo\ntype: memo\n---\n\n# My Memo\n\n## Observations\n\n- [fact] Something learned\n- [decision] Choice made\n- [technique] Approach used"
-  }'
-```
+For each section the plugin needs:
 
-Response:
-```json
-{
-  "success": true,
-  "content": "...",
-  "errors": [],
-  "warnings": [],
-  "metadata": {"hooks_run": ["validate_frontmatter", "format_observations", ...]}
-}
-```
+1. Project's `basic-memory` note → if the section exists, use it
+2. Global `~/.basic-memory/basic-memory.md` → look for `### <project>` first, then bare content under the H2
+3. Built-in defaults
 
-### Default Observation Categories
+Section-level fallback means a project file can override one section while inheriting others from global.
 
-| Required | Optional |
-|----------|----------|
-| fact | insight |
-| decision | question |
-| technique | idea |
-| | requirement |
-| | problem |
-| | solution |
+### Bootstrap
 
-Custom categories can be configured in `.basic-memory/format.md`.
+For an existing project with established conventions, ask Claude to generate a starter `basic-memory.md` based on what's already in the project:
 
-See the **validate-memo** skill for complete documentation.
+> "Look at my `<project-name>` project structure and generate a starter `basic-memory` note for it. Inspect the folder layout and existing notes to infer placement and format conventions."
+
+Claude will:
+1. Inspect the project tree (`list_directory`) and sample notes from each folder
+2. Infer naming conventions, depth patterns, and organizational structure
+3. Draft a `basic-memory` note with `## Placements` populated and other sections as commented placeholders
+4. Show you the draft for review before writing
+
+This is a one-time conversational pattern — no slash command required.
 
 ---
 
@@ -139,6 +150,8 @@ Creates a structured note with:
 - Context from the conversation
 - Observations with `[decision]`, `[insight]`, `[pattern]` categories
 - Relations linking to related concepts
+
+The `placement` skill chooses the folder automatically based on project conventions. Pass an explicit folder to override.
 
 ### `/continue [topic]`
 
@@ -204,7 +217,7 @@ Produces a report with:
 - Summary and key findings
 - Analysis and recommendations
 - Sources and related notes
-- Saved to `research/` folder by default
+- Saved to `research/` folder by default (or wherever the `placement` skill directs based on project conventions)
 
 ---
 
@@ -212,25 +225,23 @@ Produces a report with:
 
 Model-invoked capabilities that Claude uses automatically based on context.
 
-### validate-memo
+### placement
 
-Validates and fixes memo formatting using basic-memory-hooks before saving.
+Decides which folder a new note belongs in. Runs automatically before every `mcp__basic-memory__write_note` call (via PreToolUse hook).
 
 **Triggers when:**
-- Creating memos via `/remember` or `/research`
-- Writing structured notes with observations
-- Content needs format validation
-
-**Prerequisites:**
-- basic-memory-hooks server running at `http://localhost:8000`
+- About to call `mcp__basic-memory__write_note`
+- Manually invoked when planning a write
 
 **How it works:**
-1. Sends memo content to validation API
-2. Checks against project format configuration
-3. Auto-fixes formatting issues (observation format, duplicates)
-4. Returns validated content or error details
+1. Reads project and global config (`basic-memory.md`) — extracts `## Placements` rules
+2. Short-circuits at the first definitive answer:
+   - Config rule applies → use it
+   - Tree match obvious → use it
+   - Search for related notes → use as a placement signal
+3. Asks the user if placement remains ambiguous
 
-**Best for:** Ensuring consistent, machine-readable knowledge capture.
+**Best for:** Keeping notes organized according to project conventions without per-write instruction.
 
 ### knowledge-capture
 
@@ -275,24 +286,6 @@ Interactively edit notes using MCP tools in a conversational workflow.
 3. Applies edits using `edit_note` operations (append, prepend, find_replace, replace_section)
 4. Shows the updated result
 
-**Best for:** Cloud users or when you want conversational editing.
-
-### edit-note-local
-
-Edit notes directly as local markdown files with automatic sync.
-
-**Triggers when:**
-- User has local Basic Memory installation
-- User wants to make substantial file edits
-- User prefers working with full file content
-
-**How it works:**
-1. Finds the note's file path via MCP
-2. Uses Claude Code's Read/Edit/Write tools on the actual file
-3. Basic Memory's `sync --watch` picks up changes automatically
-
-**Best for:** Local users who want full file access and git integration.
-
 ### knowledge-organize
 
 Help organize, link, and maintain the knowledge graph.
@@ -329,7 +322,7 @@ Research topics thoroughly and produce structured reports saved to Basic Memory.
 - Structured report with summary, findings, and analysis
 - Recommendations when applicable
 - Links to sources and related notes
-- Saved to `research/` folder
+- Saved to `research/` folder (or wherever `placement` directs)
 
 **Best for:** Building knowledge base through investigation and documentation.
 
@@ -341,7 +334,7 @@ Automated behaviors that enhance the Basic Memory workflow.
 
 ### PreToolUse: write_note
 
-Before saving a note, prompts validation against the hooks server if running.
+Invokes the `placement` skill before saving a note, ensuring the `directory` parameter matches project conventions defined in `basic-memory.md`.
 
 ### PostToolUse: write_note
 
@@ -362,6 +355,7 @@ This plugin leverages Basic Memory's MCP tools:
 | `write_note` | Create/update markdown notes |
 | `read_note` | Read notes by title or permalink |
 | `search_notes` | Full-text search across content |
+| `list_directory` | Inspect project folder structure |
 | `build_context` | Navigate knowledge graph via memory:// URLs |
 | `recent_activity` | Get recently updated information |
 | `edit_note` | Incrementally update notes |
@@ -383,16 +377,17 @@ basic-memory-plugins/
 │   ├── organize.md          # /organize command
 │   └── research.md          # /research command
 ├── skills/
+│   ├── placement/           # NEW: folder placement
 │   ├── knowledge-capture/
 │   ├── continue-conversation/
 │   ├── spec-driven-development/
 │   ├── edit-note/
-│   ├── edit-note-local/
 │   ├── knowledge-organize/
-│   ├── validate-memo/       # NEW: Memo validation
 │   └── research/
 ├── hooks/
 │   └── hooks.json           # Hook definitions
+├── agents/
+│   └── basic-memory-manager.md
 ├── README.md                # Quick start guide
 └── PLUGIN.md                # Full documentation
 ```
@@ -403,6 +398,5 @@ basic-memory-plugins/
 
 - [Basic Memory Documentation](https://docs.basicmemory.io)
 - [Basic Memory GitHub](https://github.com/basicmachines-co/basic-memory)
-- [Basic Memory Hooks](https://github.com/basicmachines-co/basic-memory-hooks)
 - [Model Context Protocol](https://modelcontextprotocol.io)
 - [Claude Code Plugins](https://code.claude.com/docs/en/plugins)

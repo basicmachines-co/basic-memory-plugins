@@ -116,34 +116,11 @@ mcp__basic-memory__read_note(
 )
 ```
 
-## Optional: Validation with Basic Memory Hooks
-
-If the user has `basic-memory-hooks` running (`python -m basic_memory_hooks`), you can validate and auto-fix notes before saving:
-
-1. **Before calling write_note**, try to POST to `http://localhost:8000/validate`:
-   ```json
-   {"content": "full markdown content", "title": "Note Title"}
-   ```
-
-2. **If the API responds**:
-   - Use the returned `content` field (may have auto-fixes applied)
-   - Check `warnings` array for any issues to mention
-   - `success` indicates if validation passed
-
-3. **If the API is unavailable** (connection refused, timeout):
-   - Continue with the original content
-   - Validation is optional - don't block or fail
-
-This provides graceful degradation: enhanced quality when available, normal behavior otherwise.
-
 ## Folder Organization
 
-Choose appropriate folders:
-- `decisions/` - Architecture and design decisions
-- `learnings/` - Insights and lessons learned
-- `patterns/` - Reusable approaches
-- `debug-logs/` - Problem investigations
-- `conversations/` - Imported conversation summaries
+Folder placement is handled automatically by the `placement` skill (invoked via the `PreToolUse` hook on `write_note`). The skill reads project and global config from `basic-memory.md` and applies project-specific conventions.
+
+You can let placement decide, or pass a `folder` argument explicitly when you have strong knowledge of the right destination.
 
 ## Examples
 
