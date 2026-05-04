@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.11
+
+### Changed
+
+- **`knowledge-capture` skill rewritten** with new semantics:
+  - **Purpose** clarified: capture the meaningful context of a Claude Code thread as a single coherent note about where the thread has landed — not a running log.
+  - **Same-thread detection.** The skill now derives a stable session UUID from the JSONL transcript filename (`~/.claude/projects/<encoded-cwd>/<uuid>.jsonl`) and stores it as `thread_id` in the note's frontmatter. Subsequent invocations in the same thread find and **rewrite** the existing note rather than creating a new one.
+  - **Synthesis, not append.** When updating, the skill produces a fresh coherent version that integrates the latest understanding. Superseded decisions are replaced inline; brief prose acknowledges material revisions where relevant. There is no appended changelog at the bottom of the note.
+  - **Escape hatch.** If the user explicitly requests a separate note, the skill skips the same-thread lookup and creates a fresh note without a `thread_id`.
+  - **Examples updated** with preceding-conversation context, showing both a first capture and a subsequent update in the same thread (a brand design conversation that revises colors and fonts).
+
 ## 0.3.10
 
 ### Removed
