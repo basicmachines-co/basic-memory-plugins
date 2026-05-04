@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.6
+
+### Changed
+
+- **`continue-conversation` skill** — removed the hardcoded "common projects" list (`basic-memory-llc`, `getting-started`, etc.) which were author-specific names with no meaning to new users. The skill now points to `list_memory_projects()` for discovery and `~/.basic-memory/basic-memory.md` for routing rules.
+- **`spec-driven-development` skill** — removed the "Using with Slash Commands" section referencing a `/spec` command. That command does not exist in this plugin; documenting it was misleading.
+
 ## 0.3.5
 
 ### Fixed

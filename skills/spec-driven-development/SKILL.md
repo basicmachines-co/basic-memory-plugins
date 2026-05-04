@@ -283,10 +283,3 @@ Rollout plan and adoption strategy
 6. **Review honestly** - Incomplete is okay, dishonest isn't
 7. **Close the loop** - Mark items done as you complete them
 
-## Using with Slash Commands
-
-The `/spec` command provides quick access:
-- `/spec create [name]` - Create new specification
-- `/spec status` - Show all spec statuses
-- `/spec show [name]` - Read a specific spec
-- `/spec review [name]` - Validate implementation

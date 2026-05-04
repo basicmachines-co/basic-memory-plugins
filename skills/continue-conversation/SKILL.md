@@ -152,16 +152,13 @@ Natural language timeframes:
 
 ## Project Reference
 
-Common projects:
-- `main` - Primary knowledge base
-- `specs` - Specifications and design docs
-- `basic-memory-llc` - Business/company notes
-- `getting-started` - Tutorial content
+Project names are user-specific. To discover what's available:
 
-List available projects:
 ```python
 mcp__basic-memory__list_memory_projects()
 ```
+
+Routing rules (when to use which project) live in `## Projects` of `~/.basic-memory/basic-memory.md` if configured.
 
 ## Example Conversations
 
