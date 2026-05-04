@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.12
+
+### Fixed
+
+- **`knowledge-capture` session UUID detection.** The previous bash command used `pwd` to scope the JSONL lookup to a single project directory:
+  ```bash
+  ls -t ~/.claude/projects/$(pwd | sed 's:/:-:g')/*.jsonl | head -1 | ...
+  ```
+  This fails when the shell has `cd`'d into a subdirectory of the Claude Code session's project root — the encoded path no longer matches a real `~/.claude/projects/<project>` directory, and the lookup returns no matches. The skill then can't determine the session UUID and falls back to creating a new note instead of finding/updating an existing one.
+
+  The fix is a cross-project glob: `ls -t ~/.claude/projects/*/*.jsonl` — picks the most recently-modified jsonl across all project dirs. The active session is continuously appending to its jsonl, so it's reliably the most-recent.
+
 ## 0.3.11
 
 ### Changed

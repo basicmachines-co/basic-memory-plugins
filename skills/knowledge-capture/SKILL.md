@@ -27,13 +27,17 @@ It is fine — and expected — to invoke this skill multiple times in the same 
 
 ## Same-Thread Detection
 
-Each Claude Code session has a stable UUID embedded in its transcript filename. Derive it at runtime via Bash:
+Each Claude Code session has a stable UUID embedded in its transcript filename. Derive it at runtime via Bash — search across all project directories and take the most-recently-modified jsonl file:
 
 ```bash
-ls -t ~/.claude/projects/$(pwd | sed 's:/:-:g')/*.jsonl | head -1 | xargs basename | sed 's/\.jsonl$//'
+ls -t ~/.claude/projects/*/*.jsonl 2>/dev/null | head -1 | xargs basename | sed 's/\.jsonl$//'
 ```
 
-The most-recently-modified `.jsonl` file in the project's Claude data directory is the active session. The filename (minus extension) is the session UUID. Use this as the `thread_id` for the note's frontmatter.
+The active session is continuously appending to its jsonl file, so it's reliably the most-recent. The filename (minus extension) is the session UUID. Use this as the `thread_id` for the note's frontmatter.
+
+**Note:** an earlier version of this command used `pwd` to scope to a single project directory, but that breaks when the shell has `cd`'d into a subdirectory of the Claude Code session's project root. The cross-project glob is more robust.
+
+**Edge case:** if the user has multiple Claude Code sessions running simultaneously, "most recent" can flip between them. Rare in practice.
 
 ## Decision Flow
 
