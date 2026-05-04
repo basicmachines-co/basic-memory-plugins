@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.1
+
+### Changed
+
+- **Marketplace renamed** from `basicmachines` to `basicmachines-co` so the install identifier matches the GitHub org slug. Install command is now `/plugin install basic-memory@basicmachines-co` (was `basic-memory@basicmachines`).
+
+### Migration
+
+If you installed the plugin before 0.3.1:
+1. Remove the old reference from `.claude/settings.json` (`basic-memory@basicmachines` in `enabledPlugins` or `installed`).
+2. Re-install with the new identifier: `/plugin install basic-memory@basicmachines-co`.
+
+The `extraKnownMarketplaces` block (if you used one) also needs the key updated from `"basicmachines"` to `"basicmachines-co"`.
+
 ## 0.3.0
 
 ### Added

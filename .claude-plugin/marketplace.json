@@ -1,19 +1,19 @@
 {
-  "name": "basicmachines",
+  "name": "basicmachines-co",
   "owner": {
     "name": "Basic Machines",
     "email": "hello@basicmachines.co"
   },
   "metadata": {
     "description": "Official plugins from Basic Machines for knowledge management and AI-assisted development",
-    "version": "0.3.0"
+    "version": "0.3.1"
   },
   "plugins": [
     {
       "name": "basic-memory",
       "source": "./",
       "description": "Skills, commands, agents, and hooks for Basic Memory MCP - capture knowledge, continue conversations, and manage your knowledge graph with isolated context",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "author": {
         "name": "Basic Machines"
       },

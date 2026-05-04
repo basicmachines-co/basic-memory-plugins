@@ -31,7 +31,7 @@ Then add it to your Claude Code MCP configuration.
 ### Install the Plugin
 
 ```
-/plugin install basic-memory@basicmachines
+/plugin install basic-memory@basicmachines-co
 ```
 
 ### Or via Repository Settings
@@ -42,14 +42,14 @@ Add to your `.claude/settings.json`:
 {
   "plugins": {
     "extraKnownMarketplaces": {
-      "basicmachines": {
+      "basicmachines-co": {
         "source": {
           "source": "github",
           "repo": "basicmachines-co/basic-memory-plugins"
         }
       }
     },
-    "installed": ["basic-memory@basicmachines"]
+    "installed": ["basic-memory@basicmachines-co"]
   }
 }
 ```

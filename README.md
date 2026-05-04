@@ -12,7 +12,7 @@ Add the marketplace and install the plugin:
 
 ```bash
 /plugin marketplace add basicmachines-co/basic-memory-plugins
-/plugin install basic-memory@basicmachines
+/plugin install basic-memory@basicmachines-co
 ```
 
 ## Available Plugins
